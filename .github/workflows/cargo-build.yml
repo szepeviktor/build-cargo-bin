@@ -34,17 +34,21 @@ jobs:
             with:
                 toolchain: "stable"
         -
-            name: "Build bin"
+            name: "Build binaries"
             run: |
                 cargo build --verbose --bins --release
         -
+            name: "Install packages"
+            run: |
+                cargo install --verbose --path . --root ~/cargo-bin
+        -
             name: "Strip binaries"
             run: |
-                find target/release/ -maxdepth 1 -type f -executable -exec strip --strip-all target/release/dns-ptr-resolver '{}' ';'
+                find ~/cargo-bin -maxdepth 1 -type f -executable -exec strip --strip-all '{}' ';'
         -
             name: "Upload artifacts"
             uses: "actions/upload-artifact@v4"
             with:
-                name: "${{ inputs.repository }}-binaries"
-                path: "target/release/"
+                name: "binaries"
+                path: "~/cargo-bin"
                 if-no-files-found: "error"
