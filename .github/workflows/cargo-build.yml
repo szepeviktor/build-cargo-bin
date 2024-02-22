@@ -40,7 +40,10 @@ jobs:
         -
             name: "Install packages"
             run: |
-                cargo install --verbose --path . --root ~/cargo-bin
+                cargo metadata --no-deps --format-version 1 \
+                    | jq -r '."packages"[]."manifest_path"' \
+                    | xargs -L 1 -- dirname \
+                    | xargs -L 1 -- cargo install --verbose --root ~/cargo-bin --path
         -
             name: "Strip binaries"
             run: |
