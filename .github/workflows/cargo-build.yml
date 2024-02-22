@@ -36,8 +36,8 @@ jobs:
         -
             name: "Build bin"
             run: |
-                cargo build --verbose --release
+                cargo build --verbose --bins --release
         -
             name: "DEBUG"
             run: |
-                find . -type f
+                find ~/.cargo -type f
