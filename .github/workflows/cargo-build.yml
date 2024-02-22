@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
+name: "cargo build"
+
+on:
+    workflow_dispatch:
+        inputs:
+            repository:
+                type: "string"
+                description: "Repository: username/project"
+                required: true
+
+permissions:
+    contents: "read"
+
+concurrency:
+    group: "${{ github.workflow }}-${{ github.ref }}"
+    cancel-in-progress: true
+
+jobs:
+    cargo_build:
+        name: "pre-commit - ${{ inputs.repository }}"
+        runs-on: "ubuntu-22.04"
+        timeout-minutes: 1
+        steps:
+        -
+            name: "Checkout repository"
+            uses: "actions/checkout@v4"
+            with:
+                repository: "${{ inputs.repository }}"
+        -
+            name: "Install Rust Toolchain"
+            uses: "uses: dtolnay/rust-toolchain@stable"
+            with:
+                toolchain: "stable"
+        -
+            name: "Build bin"
+            run: |
+                cargo build --verbose --release
+        -
+            name: "DEBUG"
+            run: |
+                find . -type f
