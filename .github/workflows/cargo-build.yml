@@ -21,7 +21,7 @@ jobs:
     cargo_build:
         name: "cargo build - ${{ inputs.repository }}"
         runs-on: "ubuntu-22.04"
-        timeout-minutes: 1
+        timeout-minutes: 10
         steps:
         -
             name: "Checkout repository"
