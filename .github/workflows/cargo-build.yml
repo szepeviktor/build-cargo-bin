@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
     cargo_build:
-        name: "pre-commit - ${{ inputs.repository }}"
+        name: "cargo build - ${{ inputs.repository }}"
         runs-on: "ubuntu-22.04"
         timeout-minutes: 1
         steps:
@@ -30,7 +30,7 @@ jobs:
                 repository: "${{ inputs.repository }}"
         -
             name: "Install Rust Toolchain"
-            uses: "uses: dtolnay/rust-toolchain@stable"
+            uses: "dtolnay/rust-toolchain@stable"
             with:
                 toolchain: "stable"
         -
