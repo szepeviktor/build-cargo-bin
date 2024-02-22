@@ -38,6 +38,13 @@ jobs:
             run: |
                 cargo build --verbose --bins --release
         -
-            name: "DEBUG"
+            name: "Strip binaries"
             run: |
-                find target/release/deps -type f
+                find target/release/ -maxdepth 1 -type f -executable -exec strip --strip-all target/release/dns-ptr-resolver '{}' ';'
+        -
+            name: "Upload artifacts"
+            uses: "actions/upload-artifact@v4"
+            with:
+                name: "${{ inputs.repository }}-binaries"
+                path: "target/release/"
+                if-no-files-found: "error"
