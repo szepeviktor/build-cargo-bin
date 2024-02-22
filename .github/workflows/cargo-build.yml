@@ -41,7 +41,7 @@ jobs:
             name: "Install packages"
             run: |
                 cargo metadata --no-deps --format-version 1 \
-                    | jq -r '."packages"[]."manifest_path"' \
+                    | jq -r '."packages"[] | select(."targets"[]."kind"[0] == "bin") | ."manifest_path"' \
                     | xargs -L 1 -- dirname \
                     | xargs -L 1 -- cargo install --verbose --root ~/cargo-bin --path
         -
