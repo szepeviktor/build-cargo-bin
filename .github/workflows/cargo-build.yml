@@ -40,4 +40,4 @@ jobs:
         -
             name: "DEBUG"
             run: |
-                find ~/.cargo -type f
+                find target/release/deps -type f
